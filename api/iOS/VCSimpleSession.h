@@ -33,6 +33,7 @@
 #import <CoreGraphics/CoreGraphics.h>
 #import <AVFoundation/AVFoundation.h>
 #import <UIKit/UIKit.h>
+#include <videocore/sources/iOS/CameraSource.h>
 
 @class VCSimpleSession;
 
@@ -79,7 +80,10 @@ typedef NS_ENUM(NSInteger, VCFilter) {
 - (void) detectedThroughput: (NSInteger) throughputInBytesPerSecond videoRate:(NSInteger) rate;
 @end
 
-@interface VCSimpleSession : NSObject
+@interface VCSimpleSession : NSObject {
+@public
+  std::shared_ptr<videocore::iOS::CameraSource> m_cameraSource;
+}
 
 @property (nonatomic, readonly) VCSessionState rtmpSessionState;
 @property (nonatomic, strong, readonly) UIView* previewView;

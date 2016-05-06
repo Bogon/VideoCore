@@ -92,7 +92,6 @@ namespace videocore { namespace simpleApi {
 
     std::shared_ptr<videocore::simpleApi::PixelBufferOutput> m_pbOutput;
     std::shared_ptr<videocore::iOS::MicSource>               m_micSource;
-    std::shared_ptr<videocore::iOS::CameraSource>            m_cameraSource;
     std::shared_ptr<videocore::Apple::PixelBufferSource>     m_pixelBufferSource;
     std::shared_ptr<videocore::AspectTransform>              m_pbAspect;
     std::shared_ptr<videocore::PositionTransform>            m_pbPosition;
@@ -742,7 +741,7 @@ namespace videocore { namespace simpleApi {
 
         m_pbOutput = std::make_shared<videocore::simpleApi::PixelBufferOutput>([=](const void* const data, size_t size){
             CVPixelBufferRef ref = (CVPixelBufferRef)data;
-            [preview drawFrame:ref];
+//            [preview drawFrame:ref];
             if(self.rtmpSessionState == VCSessionStateNone) {
                 self.rtmpSessionState = VCSessionStatePreviewStarted;
             }
@@ -771,7 +770,8 @@ namespace videocore { namespace simpleApi {
                                                                                 );
 
 
-        std::dynamic_pointer_cast<videocore::iOS::CameraSource>(m_cameraSource)->setupCamera(self.fps,(self.cameraState == VCCameraStateFront),self.useInterfaceOrientation,nil,^{
+//        std::dynamic_pointer_cast<videocore::iOS::CameraSource>(m_cameraSource)->setupCamera(self.fps,(self.cameraState == VCCameraStateFront),self.useInterfaceOrientation,nil,
+        ^{
             m_cameraSource->setContinuousAutofocus(true);
             m_cameraSource->setContinuousExposure(true);
 
@@ -788,7 +788,7 @@ namespace videocore { namespace simpleApi {
             if ([_delegate respondsToSelector:@selector(didAddCameraSource:)]) {
                 [_delegate didAddCameraSource:self];
             }
-        });
+        }();
     }
     {
         // Add mic source
